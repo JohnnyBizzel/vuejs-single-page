@@ -11,14 +11,28 @@ const config = {
                 test: /(\.js$)/,
                 loader: "eslint-loader",
                 exclude: /node_modules/
+            },
+            {
+                test: /\.vue$/,
+                loader: "vue-loader",
+                options: {
+                    css: 'css-loader',
+                    'scss' : 'css-loader|sass-loader'
+                }
+            },
+            {
+                test: /\.js/,
+                loader: "babel-loader",
+                exclude: /node_modules/
             }
         ]  
     },
-    resolve: {
-        alias: {
-            vue: 'vue/dist/vue.js'
-        }
-    },
+    // **** NEEDED for hot reloading before adding Vue files
+    // resolve: {
+    //     alias: {
+    //         vue: 'vue/dist/vue.js'
+    //     }
+    // },
     output: {
         path: path.resolve(__dirname, "../dist"),
         publicPath: "/",

@@ -1,6 +1,7 @@
 import { app } from './app'
 app.$mount('#app')
 
-if (module.hot) {
-  module.hot.accept()
-}
+// **** NEEDED for hot reloading before adding Vue files
+// if (module.hot) {
+//   module.hot.accept()
+// }
