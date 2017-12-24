@@ -1,10 +1,15 @@
 import Vue from 'vue'
 import AppLayout from './theme/Layout.vue'
-
+import router from './router'
+import store from './vuex/index.js'
 const app = new Vue({
-  render: h => h(AppLayout)
+  router,
+  ...AppLayout,
+  store
 })
-
+// const app = new Vue({
+//   render: h => h(AppLayout)
+// })
 // Vue.component('app', {
 //   template: `
 //     <div id="app">
@@ -43,4 +48,4 @@ const app = new Vue({
 //   template: '<div id="app">{{ hello }}</div>'
 // })
 
-export { app }
+export { app, router, store }
