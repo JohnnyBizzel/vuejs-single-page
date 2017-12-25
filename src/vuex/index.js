@@ -1,29 +1,32 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import appService from '../app.service.js'
-import postsModule from './posts'
+// import postsModule from './posts'
 
 Vue.use(Vuex)
 
 const state = {
-  isAuthenticated: false
+  isAuthenticated: false,
+  posts: [],
+  categoryId: 0
 }
 
 const store = new Vuex.Store({
-  modules: {
-    postsModule
-  },
+  // modules: {
+  //   postsModule
+  // },
   state,
   getters: {
     isAuthenticated: (state) => {
       return state.isAuthenticated
-    }
+    },
+    posts: state => state.posts
   },
   actions: {
     logout (context) {
       context.commit('logout')
     },
-    login (credentials, context) {
+    login (context, credentials) {
       return new Promise((resolve) => {
         appService.login(credentials)
           .then((data) => {
@@ -33,10 +36,18 @@ const store = new Vuex.Store({
             // this.isAuthenticated = true
             resolve()
           })
-          .catch((err) => {
-            window.alert('Could not log in!')
-            console.log('Login FAIL: ' + err)
+          .catch(() => {
+            if (typeof window !== 'undefined') {
+              window.alert('Could not log in!')
+            }
+            console.log('Login FAIL: ')
           })
+      })
+    },
+    updateCategory (context, categoryId) {
+      appService.getPosts(categoryId).then(data => {
+        console.log('getting posts for ', categoryId)
+        context.commit('updateCategory', { categoryId, posts: data })
       })
     }
   },
@@ -55,6 +66,10 @@ const store = new Vuex.Store({
           token.expiration)
       }
       state.isAuthenticated = true
+    },
+    updateCategory (state, category) {
+      state.categoryId = category.categoryId
+      state.posts = category.posts
     }
   }
 })
@@ -69,4 +84,5 @@ if (typeof window === 'undefined') {
     }
   })
 }
+
 export default store

@@ -21,6 +21,7 @@ const appService = {
     return new Promise((resolve) => {
       axios.get(`/wp-json/wp/v2/posts?categories=${categoryId}&per_page=6`)
         .then(response => {
+          console.log(response)
           resolve(response.data)
         })
     })

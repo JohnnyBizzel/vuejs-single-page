@@ -55,7 +55,7 @@
   </div>
 </template>
 <script>
-  import appService from '../app.service.js'
+  // import appService from '../app.service.js'
   //import eventBus from '../event-bus.js'
   import { mapGetters, mapActions } from 'vuex'
   export default {

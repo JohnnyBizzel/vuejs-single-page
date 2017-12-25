@@ -12,7 +12,7 @@ const getters = {
 const actions = {
   updateCategory (context, categoryId) {
     appService.getPosts(categoryId).then(data => {
-      context.commit('updateCategory', { categoryId, posts: data })
+      context.commit('updateCategory', { categoryId: 11, posts: data })
     })
   }
 }
@@ -25,7 +25,7 @@ const mutations = {
 }
 
 export default {
-  namespaces: true,
+  namespace: true,
   state,
   getters,
   actions,

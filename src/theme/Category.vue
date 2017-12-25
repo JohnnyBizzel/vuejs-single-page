@@ -38,7 +38,7 @@
     //   }
     // },
     computed: {
-      ...mapGetters('postsModule', ['posts'])
+      ...mapGetters(['posts'])
     },
     methods: {
       loadPosts() {
@@ -51,12 +51,13 @@
         if(this.$route.params.id === 'mobile') {
           categoryId = 11
         }
-        
         // appService.getPosts(categoryId).then(data => {
         //   this.posts = data
         // })
         // --- using store ---
-        this.$store.dispatch('postsModule/updateCategory', categoryId)
+        console.log('cat ID:', categoryId)
+        console.log('store:', this.$store)
+        this.$store.dispatch('updateCategory', categoryId)
       }
     },
     watch: {
