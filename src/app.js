@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import AppLayout from './theme/Layout.vue'
 import router from './router'
-import store from './vuex/index.js'
+import store from './vuex'
 const app = new Vue({
   router,
   ...AppLayout,
@@ -34,7 +34,7 @@ const app = new Vue({
 //   `
 // })
 
-/* this render == template: `<app></app>` 
+/* this render == template: `<app></app>`
 const app = new Vue({
   render: h => h('app')
 })

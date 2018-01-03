@@ -2,11 +2,7 @@
   <div class="columns">
     <div class="column is-one-third" v-for="(post, title) in posts" v-bind:key="post.id">
       <app-post :link="post.rest_api_enabler.Link">
-      <!--<app-post :link="post.link">-->
-        <!--<h3 slot="title">{{ post.title }}</h3>-->
-        <!--<span slot="content">{{ post.content }}</span>-->
         <h3 slot="title" v-html="post.title.rendered"></h3>
-   
         <span slot="content" v-html="post.excerpt.rendered"></span>
       </app-post>
     </div>
@@ -14,7 +10,7 @@
 </template>
 <script>
   import Post from './Post.vue'
-  //import appService from '../app.service'
+  // import appService from '../app.service'
   import { mapGetters } from 'vuex'
   export default {
     components: {
@@ -38,17 +34,17 @@
     //   }
     // },
     computed: {
-      ...mapGetters(['posts'])
+      ...mapGetters('postsModule', ['posts'])
     },
     methods: {
-      loadPosts() {
+      loadPosts () {
         // if(this.id === 'front-end') {
         //   this.posts = this.postsFrontEnd
         // } else {
         //   this.posts = this.postsMobile
         // }
-        let categoryId = 2; // = front end links
-        if(this.$route.params.id === 'mobile') {
+        let categoryId = 2 // = front end links
+        if (this.$route.params.id === 'mobile') {
           categoryId = 11
         }
         // appService.getPosts(categoryId).then(data => {
@@ -57,18 +53,17 @@
         // --- using store ---
         console.log('cat ID:', categoryId)
         console.log('store:', this.$store)
-        this.$store.dispatch('updateCategory', categoryId)
+        this.$store.dispatch('postsModule/updateCategory', categoryId)
       }
     },
     watch: {
-      '$route' (to, from) {
+      $route (to, from) {
         // this.id = to.params.id
         this.loadPosts()
       }
     },
-    created() {
+    created () {
       this.loadPosts()
     }
   }
-  
 </script>
