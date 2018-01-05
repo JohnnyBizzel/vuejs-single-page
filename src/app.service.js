@@ -9,7 +9,7 @@ axios.interceptors.request.use(function (config) {
     return config
   }
   //
-  const token = window.localStorage.getItem('token')
+  const token = window.localStorage.getItem('vue-spa-token')
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
@@ -18,8 +18,9 @@ axios.interceptors.request.use(function (config) {
 
 const appService = {
   getPosts (categoryId) {
-    return new Promise((resolve) => {
-      axios.get(`/wp-json/wp/v2/posts?categories=${categoryId}&per_page=6`)
+    return new Promise(resolve => {
+      axios
+        .get(`/wp-json/wp/v2/posts?categories=${categoryId}&per_page=6`)
         .then(response => {
           console.log(response)
           resolve(response.data)
@@ -27,32 +28,34 @@ const appService = {
     })
   },
   getProfile () {
-    return { firstname: 'Bill', favoriteSandwich: 'Salmon' }
-    /* TODO: FAILING with 401
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       // pass any token in the request header
-      axios.get('/services/profile.php'
-      // ,
-      //   {
-      //     headers: {
-      //       'Authorization': `Bearer ${window.localStorage.getItem('token')}`
-      //     }
-      //   }
-      )
+      axios
+        .get(
+          '/services/profile.php'
+          // ,
+          //   {
+          //     headers: {
+          //       'Authorization': `Bearer ${window.localStorage.getItem('vue-spa-token')}`
+          //     }
+          //   }
+        )
         .then(response => {
           resolve(response.data)
-        }).catch(response => {
+        })
+        .catch(response => {
           console.log('Error:' + response)
         })
     })
-    */
   },
   login (credentials) {
     return new Promise((resolve, reject) => {
-      axios.post('/services/auth.php', credentials)
+      axios
+        .post('/services/auth.php', credentials)
         .then(response => {
           resolve(response.data)
-        }).catch(response => {
+        })
+        .catch(response => {
           reject(response.status)
         })
     })
