@@ -12,7 +12,17 @@
   import Post from './Post.vue'
   // import appService from '../app.service'
   import { mapGetters } from 'vuex'
+  const fetchInitialData = (store, route) => {
+    let categoryId = 2 // = front end links
+    if (route.params.id === 'mobile') {
+      categoryId = 11
+    }
+    return store.dispatch('postsModule/updateCategory', categoryId)
+  }
   export default {
+    asyncData  (store, route) {
+      return fetchInitialData(store, route)
+    },
     components: {
       'app-post': Post
     },
@@ -43,17 +53,17 @@
         // } else {
         //   this.posts = this.postsMobile
         // }
-        let categoryId = 2 // = front end links
-        if (this.$route.params.id === 'mobile') {
-          categoryId = 11
-        }
+        // let categoryId = 2 // = front end links
+        // if (this.$route.params.id === 'mobile') {
+        //   categoryId = 11
+        // }
         // appService.getPosts(categoryId).then(data => {
         //   this.posts = data
         // })
         // --- using store ---
-        console.log('cat ID:', categoryId)
-        console.log('store:', this.$store)
-        this.$store.dispatch('postsModule/updateCategory', categoryId)
+        //this.$store.dispatch('postsModule/updateCategory', categoryId)
+        // -- using server side state --
+        fetchInitialData(this.$store, this.$route)
       }
     },
     watch: {

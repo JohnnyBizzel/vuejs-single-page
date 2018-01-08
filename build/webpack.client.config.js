@@ -1,8 +1,14 @@
 const base = require('./webpack.base.config')
+const webpack = require('webpack')
 const ExtractText = require('extract-text-webpack-plugin')
 
 const config = Object.assign({}, base, {
-  plugins: base.plugins || []
+  plugins: (base.plugins || []).concat([
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'assets/js/[name].js'
+    })
+  ])
 })
 
 config.module.rules
@@ -10,5 +16,22 @@ config.module.rules
     return x.loader === 'vue-loader'
   })
   .forEach(x => (x.options.extractCSS = true))
+  
 config.plugins.push(new ExtractText('assets/styles.css'))
+
+// minifies and cuts down messages when building prod code
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"'
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  )
+}
 module.exports = config
